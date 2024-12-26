@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "android": "react-native run-android",
-    "ios": "react-native run-ios",
+    "ios": "react-native run-ios --simulator='iPhone 15'",
     "lint": "eslint .",
     "start": "react-native start",
     "test": "jest"
@@ -12,7 +12,9 @@
   "dependencies": {
     "react": "18.3.1",
     "react-native": "0.76.5",
-    "react-native-charts-wrapper": "^0.6.0",
+    "react-native-gifted-charts": "^1.4.48",
+    "react-native-linear-gradient": "^2.8.3",
+    "react-native-svg": "^15.10.1",
     "react-native-swiper": "^1.6.0"
   },
   "devDependencies": {
