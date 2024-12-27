@@ -6,13 +6,15 @@ export const useGetElectricityPricesByDay = (date: Date) => {
   const [electricityPrices, setElectricityPrices] = useState<ElectricityPrice[]>([]);
   const [isLoading, setIsLoading] = useState(false);
 
-  const fetchElectricityPrices = useCallback(async () => {
+  
+  const fetchElectricityPrices = useCallback(async (targetDate: Date) => {
     try {
       setIsLoading(true);
+      setElectricityPrices([]);
       const body = {
-        day: date.getDate(),
-        month: date.getMonth() + 1,
-        year: date.getFullYear(),
+        day: targetDate.getDate(),
+        month: targetDate.getMonth() + 1,
+        year: targetDate.getFullYear(),
       };
       const response = await fetch('https://backoffice-acct001.bluecurrent.nl/app/bce_api/api/v1/electricity/prices/day', {
         method: 'POST',
@@ -31,14 +33,12 @@ export const useGetElectricityPricesByDay = (date: Date) => {
       Alert.alert('Error', `Failed to fetch electricity prices\n ${error}`);
     } finally {
       setIsLoading(false);
-    }
-  }, [date]);
+    };
+  }, []);
 
   useEffect(() => {
-    console.log('fetching', date.toISOString());
-    setElectricityPrices([]);
-    fetchElectricityPrices();
-  }, [date]);
+    fetchElectricityPrices(date);
+  }, []);
 
   return { electricityPrices, isLoading, fetchElectricityPrices };
 };
