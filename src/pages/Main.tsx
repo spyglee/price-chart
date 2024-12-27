@@ -1,8 +1,8 @@
 import React, { useState, useMemo } from 'react';
 import Swiper from 'react-native-swiper';
-import { View, StyleSheet, Dimensions, Text, ActivityIndicator } from 'react-native';
-import { DUMMY_DATA } from '../../dummyData'; // Use this instead of real data to see negative price
-import BarChart from '../ui/BarChart';
+import { View, StyleSheet, Dimensions, ActivityIndicator } from 'react-native';
+// import { DUMMY_DATA } from '../../dummyData'; // Use this instead of real data to see negative price
+import BarChart from '../components/BarChart';
 import { useGetElectricityPricesByDay } from '../hooks/useGetElectricityPricesByDay';
 import { BLUE, DARK_GREY, GREEN, LIGHT_GREY, ORANGE, WHITE } from '../colors';
 
@@ -33,24 +33,11 @@ const Main = () => {
               {isLoading && <ActivityIndicator />}
               {!isLoading && (
                 <View style={styles.card}>
-                  <Text style={styles.dateText}>
-                    {selectedDate?.toLocaleDateString()}
-                  </Text>
-                  <BarChart data={DUMMY_DATA.map(data => ({ label: data.hour.toString(), value: data.amount }))} />
-                  <View style={styles.legend}>
-                    <View style={styles.legendItem}>
-                      <View style={[styles.legendItemColor, { backgroundColor: ORANGE }]} />
-                      <Text style={styles.legendItemText}>
-                        Positive
-                      </Text>
-                    </View>
-                    <View style={styles.legendItem}>
-                      <View style={[styles.legendItemColor, { backgroundColor: GREEN }]} />
-                      <Text style={styles.legendItemText}>
-                        Negative
-                      </Text>
-                    </View>
-                  </View>
+                  <BarChart
+                    data={electricityPrices.map(data => ({ label: data.hour.toString(), value: data.amount }))}
+                    title={selectedDate?.toLocaleDateString()}
+                    legend={[{ title: 'Positive', color: ORANGE }, { title: 'Negative', color: GREEN }]}
+                  />
                 </View>
               )}
             </View>
