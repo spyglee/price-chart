@@ -1,5 +1,5 @@
 import React from 'react';
-import Main from './pages/Main';
+import Main from './src/pages/Main';
 import ErrorBoundary from './src/ErrorBoundary';
 
 function App(): React.JSX.Element {

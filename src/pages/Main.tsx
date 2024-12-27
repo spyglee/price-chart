@@ -1,85 +1,10 @@
 import React, { useState, useMemo } from 'react';
 import Swiper from 'react-native-swiper';
 import { View, StyleSheet, Dimensions, Text, ActivityIndicator } from 'react-native';
-import { ElectricityPrice } from '../src/types/electricityPrices';
-import BarChart from '../src/ui/BarChart';
-import { useGetElectricityPricesByDay } from '../src/hooks/useGetElectricityPricesByDay';
-import { BLUE, DARK_GREY, GREEN, LIGHT_GREY, ORANGE, WHITE } from '../src/colors';
-
-const dymmyData: ElectricityPrice[] = [
-  {
-    "type": "price_per_hour",
-    "hour": 3,
-    "amount": 0.02,
-    "amount_currency": "EUR"
-  },
-  {
-      "type": "price_per_hour",
-      "hour": 9,
-      "amount": 0.05,
-      "amount_currency": "EUR"
-  },
-  {
-      "type": "price_per_hour",
-      "hour": 8,
-      "amount": 0.05,
-      "amount_currency": "EUR"
-  },
-  {
-      "type": "price_per_hour",
-      "hour": 1,
-      "amount": -0.01,
-      "amount_currency": "EUR"
-  },
-  {
-      "type": "price_per_hour",
-      "hour": 5,
-      "amount": -0.05,
-      "amount_currency": "EUR"
-  },
-  {
-      "type": "price_per_hour",
-      "hour": 12,
-      "amount": -0.01,
-      "amount_currency": "EUR"
-  },
-  {
-      "type": "price_per_hour",
-      "hour": 6,
-      "amount": -0.06,
-      "amount_currency": "EUR"
-  },
-  {
-      "type": "price_per_hour",
-      "hour": 4,
-      "amount": 0.04,
-      "amount_currency": "EUR"
-  },
-  {
-      "type": "price_per_hour",
-      "hour": 10,
-      "amount": 0.04,
-      "amount_currency": "EUR"
-  },
-  {
-      "type": "price_per_hour",
-      "hour": 2,
-      "amount": 0.02,
-      "amount_currency": "EUR"
-  },
-  {
-      "type": "price_per_hour",
-      "hour": 7,
-      "amount": 0.06,
-      "amount_currency": "EUR"
-  },
-  {
-      "type": "price_per_hour",
-      "hour": 11,
-      "amount": 0.03,
-      "amount_currency": "EUR"
-  }
-];
+import { DUMMY_DATA } from '../../dummyData'; // Use this instead of real data to see negative price
+import BarChart from '../ui/BarChart';
+import { useGetElectricityPricesByDay } from '../hooks/useGetElectricityPricesByDay';
+import { BLUE, DARK_GREY, GREEN, LIGHT_GREY, ORANGE, WHITE } from '../colors';
 
 const Main = () => {
   const baseDate = useMemo(() => new Date(), []);
@@ -111,7 +36,7 @@ const Main = () => {
                   <Text style={styles.dateText}>
                     {selectedDate?.toLocaleDateString()}
                   </Text>
-                  <BarChart data={dymmyData.map(data => ({ label: data.hour.toString(), value: data.amount }))} />
+                  <BarChart data={DUMMY_DATA.map(data => ({ label: data.hour.toString(), value: data.amount }))} />
                   <View style={styles.legend}>
                     <View style={styles.legendItem}>
                       <View style={[styles.legendItemColor, { backgroundColor: ORANGE }]} />
