@@ -5,29 +5,27 @@ import { GREEN, DARK_GREY, ORANGE, LIGHT_GREY, WHITE } from '../colors';
 
 type Props =  {
   data: { label: string, value: number }[],
-  title: string,
   legend: { title: string, color: string}[]
 }
 
-const BarChart = ({data, title, legend}: Props) => {
+const BarChart = ({data, legend}: Props) => {
   return (
     <>
       <View style={styles.card}>
-        <Text style={styles.dateText}>
-          {title}
-        </Text>
         <BarChartComponent
           data={data.map(d => (
             {
-              labelTextStyle: { color: DARK_GREY},
+              labelTextStyle: { color: DARK_GREY, fontSize: 10 },
               value: d.value,
               label: d.label,
               frontColor: d.value > 0 ? ORANGE : GREEN,
             }
           ))}
-          barWidth={10}
+          barWidth={7}
+          roundToDigits={2}
+          yAxisLabelWidth={40}
           barBorderRadius={3}
-          spacing={7}
+          spacing={5}
           dashGap={0}
           yAxisLabelPrefix='€'
           yAxisSide={yAxisSides.RIGHT}
@@ -61,7 +59,7 @@ const styles = StyleSheet.create({
   card: {
     width: Dimensions.get('window').width - 40,
     backgroundColor: WHITE,
-    padding: 10,
+    paddingRight: 10,
     borderRadius: 10,
   },
   dateText: {

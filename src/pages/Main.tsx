@@ -1,5 +1,4 @@
-import React, { useState, useMemo } from 'react';
-import Swiper from 'react-native-swiper';
+import React, { useMemo } from 'react';
 import { View, StyleSheet, Dimensions, ActivityIndicator } from 'react-native';
 // import { DUMMY_DATA } from '../../dummyData'; // Use this instead of real data to see negative price
 import BarChart from '../components/BarChart';
@@ -7,44 +6,24 @@ import { useGetElectricityPricesByDay } from '../hooks/useGetElectricityPricesBy
 import { BLUE, DARK_GREY, GREEN, LIGHT_GREY, ORANGE, WHITE } from '../colors';
 
 const Main = () => {
-  const baseDate = useMemo(() => new Date(), []);
-  const [selectedDate, setSelectedDate] = useState(baseDate);
-  const { electricityPrices, isLoading, fetchElectricityPrices } = useGetElectricityPricesByDay(selectedDate);
-
-  const onIndexChanged = (index: number) => {
-    const offset = index - 100;
-    const date = new Date(baseDate);
-    date.setDate(date.getDate() + offset);
-    setSelectedDate(date);
-    fetchElectricityPrices(date);
-  };
+  const { electricityPrices, isLoading } = useGetElectricityPricesByDay(new Date());
 
   const adjustedData = useMemo(() => {
-    return electricityPrices.sort((a, b) => a.hour - b.hour).map(data => ({ label: data.hour.toString(), value: parseFloat(data.amount.toFixed(2)) }));
+    return electricityPrices.map(data => ({ label: data.hour.toString(), value: data.amount}));
   }, [electricityPrices]);
 
   return (
     <>
-      <View style={{ height: 50, backgroundColor: BLUE }} />
-      <Swiper
-        loop={false}
-        showsPagination={false}
-        onIndexChanged={onIndexChanged}
-        index={100}
-      >
-        {Array.from({ length: 200 }).map((_, i) => (
-            <View key={i} style={styles.slide}>
-              {isLoading && <ActivityIndicator />}
-              {!isLoading && (
-                <BarChart
-                  data={adjustedData}
-                  title={selectedDate?.toLocaleDateString()}
-                  legend={[{ title: 'Positive', color: ORANGE }, { title: 'Negative', color: GREEN }]}
-                />
-              )}
-            </View>
-        ))}
-      </Swiper>
+      <View style={{height: 50, width: '100%', backgroundColor: BLUE }} />
+      <View style={styles.slide}>
+        {isLoading && <ActivityIndicator />}
+        {!isLoading && (
+          <BarChart
+          data={adjustedData}
+          legend={[{ title: 'Positive', color: ORANGE }, { title: 'Negative', color: GREEN }]}
+          />
+        )}
+      </View>
     </>
   );
 };
