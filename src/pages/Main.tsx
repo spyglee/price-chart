@@ -19,6 +19,10 @@ const Main = () => {
     fetchElectricityPrices(date);
   };
 
+  const adjustedData = useMemo(() => {
+    return electricityPrices.sort((a, b) => a.hour - b.hour).map(data => ({ label: data.hour.toString(), value: parseFloat(data.amount.toFixed(2)) }));
+  }, [electricityPrices]);
+
   return (
     <>
       <View style={{ height: 50, backgroundColor: BLUE }} />
@@ -32,13 +36,11 @@ const Main = () => {
             <View key={i} style={styles.slide}>
               {isLoading && <ActivityIndicator />}
               {!isLoading && (
-                <View style={styles.card}>
-                  <BarChart
-                    data={electricityPrices.map(data => ({ label: data.hour.toString(), value: data.amount }))}
-                    title={selectedDate?.toLocaleDateString()}
-                    legend={[{ title: 'Positive', color: ORANGE }, { title: 'Negative', color: GREEN }]}
-                  />
-                </View>
+                <BarChart
+                  data={adjustedData}
+                  title={selectedDate?.toLocaleDateString()}
+                  legend={[{ title: 'Positive', color: ORANGE }, { title: 'Negative', color: GREEN }]}
+                />
               )}
             </View>
         ))}

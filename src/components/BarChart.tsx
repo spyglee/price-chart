@@ -1,5 +1,5 @@
 import React, { memo } from 'react'
-import { BarChart as BarChartComponent } from 'react-native-gifted-charts';
+import { BarChart as BarChartComponent, yAxisSides } from 'react-native-gifted-charts';
 import { Dimensions, View, Text, StyleSheet } from "react-native"
 import { GREEN, DARK_GREY, ORANGE, LIGHT_GREY, WHITE } from '../colors';
 
@@ -11,28 +11,32 @@ type Props =  {
 
 const BarChart = ({data, title, legend}: Props) => {
   return (
-    <View style={styles.card}>
-      <Text style={styles.dateText}>
-        {title}
-      </Text>
-      <BarChartComponent
-        data={data.map(d => (
-          {
-            labelTextStyle: { color: DARK_GREY},
-            value: d.value,
-            label: d.label,
-            frontColor: d.value > 0 ? ORANGE : GREEN,
-          }
-        ))}
-        barWidth={13}
-        barBorderRadius={10}
-        spacing={10}
-        dashGap={0}
-        yAxisColor={DARK_GREY}
-        xAxisColor={DARK_GREY}
-        yAxisTextStyle={{ color: DARK_GREY }}
-        width={Dimensions.get('window').width - 110}
-      />
+    <>
+      <View style={styles.card}>
+        <Text style={styles.dateText}>
+          {title}
+        </Text>
+        <BarChartComponent
+          data={data.map(d => (
+            {
+              labelTextStyle: { color: DARK_GREY},
+              value: d.value,
+              label: d.label,
+              frontColor: d.value > 0 ? ORANGE : GREEN,
+            }
+          ))}
+          barWidth={10}
+          barBorderRadius={3}
+          spacing={7}
+          dashGap={0}
+          yAxisLabelPrefix='€'
+          yAxisSide={yAxisSides.RIGHT}
+          yAxisColor={DARK_GREY}
+          xAxisColor={DARK_GREY}
+          yAxisTextStyle={{ color: DARK_GREY }}
+          width={Dimensions.get('window').width - 100}
+        />
+      </View>
       <View style={styles.legend}>
         {legend.map((item, index) => (
           <View style={styles.legendItem} key={index}>
@@ -43,7 +47,7 @@ const BarChart = ({data, title, legend}: Props) => {
           </View>
         ))}
       </View>
-    </View>
+    </>
   );
 };
 
@@ -69,6 +73,7 @@ const styles = StyleSheet.create({
     marginLeft: 'auto',
     marginRight: 'auto',
     gap: 10,
+    marginTop: 10,
   },
   legendItem: {
     flexDirection: 'row',
